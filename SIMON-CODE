@@ -2,77 +2,76 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * A Simon Game in Java
- * Authors: John Coronite, Mohammed Al Mutar, Aleczander Allen
- * Date: October 30, 2017
+ * Simon Java edition!
+ * Created by Aryan Z, Kevin Z and Rishi S
  **/
 public class Simon {
 
     public static void main(String[] args) {
-        char playAgain;
+        char playagain;
         Random generator = new Random();
         Scanner kb = new Scanner(System.in);
 
-        int highScore = 0;
-        int lowScore = 0;
-        int scoreSum = 0;
-        int gamesPlayed = 0;
+        int highscore = 0;
+        int lowscore = 0;
+        int scoresum = 0;
+        int gamesplayed = 0;
 
-        // Runs on each GAME
+        // Runs on each game
         do {
-            gamesPlayed++;
+            gamesplayed++;
             displayInstructions();
             kb.nextLine(); //User hits enter when ready to begin. This captures that enter.
 
             //initialize game info
-            // gameNum must be a string because the game can easily exceed Java's maximum value for an int
-            String gameNum = "";
-            String userGuess;
+            // gamenum must be a string because the game can easily exceed Java's maximum value for an int
+            String gamenum = "";
+            String userguess;
             int score = 0;
 
 
             //// Runs on each GUESS
             do {
                 // add onto game num
-                gameNum = updateGameNum(gameNum, generator);
+                gamenum = updategamenum(gamenum, generator);
 
                 // display game number and pause
-                displayGameNum(gameNum);
+                displaygamenum(gamenum);
 
                 // make number disappear
-                makeNumVanish();
+                makenumVanish();
 
                 // get user's guess
-                userGuess = getUsersGuess(kb);
+                userguess = getusersGuess(kb);
 
-                // increment score and scoreSum on each guess if the user got it right
-                if (userGotItRight(userGuess, gameNum)) {
+                // Score and scoresum on each guess if the user got it right
+                if (usergotitright(userguess, gamenum)) {
                     score++;
-                    scoreSum++;
+                    scoresum++;
                 }
 
-            } while (userGotItRight(userGuess, gameNum));
+            } while (usergotitright(userguess, gamenum));
 
             // Calculate the updated high and low scores after each game.
-            if (highScore == 0 || score > highScore)
-                highScore = score;
-            if (lowScore == 0 || score < lowScore)
-                lowScore = score;
+            if (highscore == 0 || score > highscore)
+                highscore = score;
+            if (lowscore == 0 || score < lowscore)
+                lowscore = score;
 
             // Calculate the average after each game.
-            double average = (double) scoreSum / gamesPlayed;
+            double average = (double) scoresum / gamesplayed;
 
             // Display the statistics after each game.
-            displayStats(userGuess, gameNum, highScore, lowScore, gamesPlayed, average);
+            displaystats(userguess, gamenum, highscore, lowscore, gamesplayed, average);
 
             System.out.print("Do you want to play again? y/n ");
             try {
-                playAgain = kb.nextLine().toLowerCase().charAt(0);
+                playagain = kb.nextLine().tLlowerCase().charAt(0);
             } catch (Exception e) {
-                playAgain = 'y';
+                playagain = 'y';
             }
 
-        } while (playAgain != 'n');
+        } while (playagain != 'n');
 
     }
 
@@ -80,14 +79,14 @@ public class Simon {
      * If the user guess has the same number of digits as the game number, this method loops through the guess and
      * returns how many digits in the user guess differ from it.
      *
-     * @param userGuess The user guess.
-     * @param gameNum   The game number.
+     * @param userguess The user guess.
+     * @param gamegum  The game number.
      * @return The number of digits in the guess that are different from the game number.
      */
-    private static int getNumberOffBy(String userGuess, String gameNum) {
+    private static int genumberoffby(String userguess, String gamenum) {
         int count = 0;
-        for (int i = 0; i < userGuess.length(); i++) {
-            if (userGuess.charAt(i) != gameNum.charAt(i)) {
+        for (int i = 0; i < userguess.length(); i++) {
+            if (userguess.charAt(i) != gamenum.charAt(i)) {
                 count++;
             }
         }
@@ -95,12 +94,11 @@ public class Simon {
     }
 
     /**
-     * Adds commas to a String.
      *
      * @param number The number as a String
      * @return the number String with commas added
      */
-    private static String addCommas(String number) {
+    private static String addcommas(String number) {
         int count = 0;
         StringBuilder builder = new StringBuilder();
         for (int i = number.length() - 1; i >= 0; i--) {
@@ -119,47 +117,47 @@ public class Simon {
     /**
      * Displays the stats for the game.
      *
-     * @param userGuess  the user guess
-     * @param gameNumber the game number
+     * @param userguess  the user guess
+     * @param gamegumber the game number
      * @param high       the high score
      * @param low        the low score
      * @param games      the number of games played
      * @param avg        the user's average score
      */
-    private static void displayStats(String userGuess, String gameNumber, int high, int low, int games, double avg) {
-        int gameNumberCount = gameNumber.length();
-        int guessNumberCount = userGuess.length();
+    private static void displayStats(String userGuess, String gamenumber, int high, int low, int games, double avg) {
+        int gamenumbercount = gamenumber.length();
+        int guessnumbercount = userguess.length();
 
         System.out.println();
-        System.out.println("WRONG! You lost when the number was " + gameNumberCount + " digits long.");
+        System.out.println("WRONG! You lost when the number was " + gamenumbercount + " digits long.");
 
-        switch (gameNumberCount) {
+        switch (gamenumbercount) {
             case 1:
             case 2:
             case 3:
-                System.out.println("Not very good. Keep Trying!");
+                System.out.println("Keep Trying!");
                 break;
             case 4:
             case 5:
             case 6:
-                System.out.println("You could do better. Stick With it!");
+                System.out.println("You could do better than that");
                 break;
             case 7:
             case 8:
             case 9:
-                System.out.println("Not terrible. Could be better.");
+                System.out.println("Could be better.");
                 break;
             default:
                 System.out.println("You're an expert!");
         }
 
-        System.out.println("The correct number was " + addCommas(gameNumber) + ".");
-        System.out.println("You guessed " + addCommas(userGuess) + ".");
-        if (gameNumberCount != guessNumberCount)
-            System.out.println("Your guess had " + guessNumberCount + " digits, but the answer had " + gameNumberCount + " digits.");
+        System.out.println("The correct number was " + addcommas(gamenumber) + ".");
+        System.out.println("You guessed " + addcommas(userguess) + ".");
+        if (gamenumbercount != guessnumbercount)
+            System.out.println("Your guess had " + guessnumbercount + " digits, but the answer had " + gamenumbercount + " digits.");
         else {
-            int offBy = getNumberOffBy(userGuess, gameNumber);
-            System.out.println("You were off by " + offBy);
+            int offby = getnumberoffby(userguess, gamenumber);
+            System.out.println("You were off by " + offby);
         }
         System.out.println("Your HIGH SCORE is: " + high);
         System.out.println("Your LOW SCORE is: " + low);
@@ -171,12 +169,12 @@ public class Simon {
     /**
      * Returns a boolean indicating if the user got the guess right.
      *
-     * @param userGuess  The user guess
-     * @param gameNumber The game number
+     * @param userguess  The user guess
+     * @param gamenumber The game number
      * @return boolean Did the user get the right answer.
      */
-    private static boolean userGotItRight(String userGuess, String gameNumber) {
-        return (userGuess.equals(gameNumber));
+    private static boolean usergotitright(String userguess, String gamenumber) {
+        return (userguess.equals(gamenumber));
     }
 
     /**
@@ -185,7 +183,7 @@ public class Simon {
      * @param kb The Scanner
      * @return The user guess
      */
-    private static String getUsersGuess(Scanner kb) {
+    private static String getusersguess(Scanner kb) {
         System.out.println("What is your guess? ");
         while (!kb.hasNextLine()) {
             System.out.println("What is your guess? ");
@@ -197,7 +195,7 @@ public class Simon {
     /**
      * Makes the number vanish.
      */
-    private static void makeNumVanish() {
+    private static void makenumvanish() {
         for (int i = 0; i <= 300; i++) {
             System.out.println();
         }
@@ -208,9 +206,9 @@ public class Simon {
      *
      * @param gameNumber The game number
      */
-    private static void displayGameNum(String gameNumber) {
-        System.out.println("The number is: " + addCommas(gameNumber));
-        int time = (gameNumber.length() < 5) ? 1000 : 500;
+    private static void displaygamenum(String gamenumber) {
+        System.out.println("The number is: " + addcommas(gamenumber));
+        int time = (gamenumber.length() < 5) ? 1000 : 500;
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
@@ -233,12 +231,12 @@ public class Simon {
     /**
      * Display the game instructions
      */
-    private static void displayInstructions() {
-        System.out.println("This is a game of Simon.");
-        System.out.println("I'll flash a number on the screen.");
+    private static void displayinstructions() {
+        System.out.println("Welcome to Simon Java editon.");
+        System.out.println("A number will flash on the screen for a second.");
         System.out.println("The goal of the game is to remember the number.");
-        System.out.println("I'll add one digit each time, so the game gets harder!");
-        System.out.println("If the number is 5 or more digits, I'll only display it for half a second.");
+        System.out.println("A digit will be added each time, so the game gets harder!");
+        System.out.println("If the number is 5 or more digits, It will only display it for half a second.");
         System.out.print("Press ENTER to begin ");  // .print here makes it so when the user hits enter the game starts.
     }
 }
